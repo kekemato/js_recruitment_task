@@ -22,10 +22,30 @@ export default class App {
         this.getData();
     }
 
+    handleSectionChange(event) {
+        this.state.section = event.target.value;
+        this.state.currentPage = 1;
+        this.getData();
+    }
+
+    handleSearchChange(event) {
+        this.state.searchText = event.target.value;
+        this.state.currentPage = 1;
+        this.getData();
+    }
+
     setListeners() {
         document
             .getElementById('activePageSelect')
             .addEventListener('change', (event) => this.handlePageChange(event));
+
+        document
+            .getElementById('sectionSelect')
+            .addEventListener('change', (event) => this.handleSectionChange(event));
+
+        document
+            .getElementById('newsContentSearch')
+            .addEventListener('change', (event) => this.handleSearchChange(event));
     }
 
     getReadlaterArticlesList() {
@@ -33,7 +53,6 @@ export default class App {
         readLaterList.innerHTML = '';
         const savedArticles = JSON.parse(localStorage.getItem('savedArticles'));
         savedArticles.map(({ header, url, id }) => {
-            console.log();
             const newArticle = new ReadLaterArticle(header, url, id, this);
             readLaterList.appendChild(newArticle.htmlElement);
         });
