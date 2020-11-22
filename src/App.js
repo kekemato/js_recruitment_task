@@ -1,5 +1,6 @@
 import Article from './components/Article';
 import Pagination from './components/Pagination';
+import ReadLaterArticle from './components/ReadLaterArticle';
 
 export default class App {
     constructor(apiKey) {
@@ -27,11 +28,22 @@ export default class App {
             .addEventListener('change', (event) => this.handlePageChange(event));
     }
 
+    getReadlaterArticlesList() {
+        const readLaterList = document.getElementById('readLaterList');
+        readLaterList.innerHTML = '';
+        const savedArticles = JSON.parse(localStorage.getItem('savedArticles'));
+        savedArticles.map(({ header, url, id }) => {
+            console.log();
+            const newArticle = new ReadLaterArticle(header, url, id, this);
+            readLaterList.appendChild(newArticle.htmlElement);
+        });
+    }
+
     getArticlesList() {
         const newsList = document.getElementById('newsList');
         newsList.innerHTML = '';
         this.state.articles.map(
-            ({ webUrl, webTitle, webPublicationDate, sectionName }, index) => {
+            ({ webUrl, webTitle, webPublicationDate, sectionName, id }) => {
                 const publicationDate = webPublicationDate
                     .split('T')[0]
                     .split('-')
@@ -42,7 +54,8 @@ export default class App {
                     sectionName,
                     publicationDate,
                     webUrl,
-                    index
+                    id,
+                    this
                 );
                 newsList.appendChild(newArticle.htmlElement);
             }
@@ -57,6 +70,7 @@ export default class App {
     render() {
         this.getArticlesList();
         this.getPagination();
+        this.getReadlaterArticlesList();
     }
 
     getDates() {

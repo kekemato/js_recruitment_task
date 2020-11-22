@@ -1,5 +1,5 @@
 export default class Article {
-    constructor(header, sectionName, publicationDate, url, id) {
+    constructor(header, sectionName, publicationDate, url, id, application) {
         this.state = {
             header,
             sectionName,
@@ -7,15 +7,24 @@ export default class Article {
             url,
             id,
         };
+        this.application = application;
         this.htmlElement = this.render();
+    }
 
-        this.render();
+    saveArticleToReadLater(article) {
+        const savedArticles = JSON.parse(localStorage.getItem('savedArticles'));
+        if (!savedArticles.find((item) => item.id === article.id))
+            localStorage.setItem(
+                'savedArticles',
+                JSON.stringify(savedArticles ? [...savedArticles, article] : [article])
+            );
+        this.application.getReadlaterArticlesList();
     }
 
     render() {
-        const { header, sectionName, publicationDate, url, id } = this.state;
+        const { header, sectionName, publicationDate, url } = this.state;
         const template = `
-        <article id="article${id}" class="news">
+        <article class="news">
         <header>
             <h3>${header}</h3>
         </header>
@@ -34,6 +43,9 @@ export default class Article {
 
         const newArticle = document.createElement('li');
         newArticle.innerHTML = template;
+        newArticle.querySelector('button').addEventListener('click', () => {
+            this.saveArticleToReadLater(this.state);
+        });
         return newArticle;
     }
 }
