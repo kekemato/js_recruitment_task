@@ -1,11 +1,23 @@
 export default class Pagination {
-    constructor(currentPage, pages, handlePageChange) {
+    constructor(currentPage, pages, app) {
         this.state = {
             currentPage,
             pages,
         };
-        this.handlePageChange = handlePageChange;
+        this.app = app;
         this.getOptions();
+        this.setListener();
+    }
+
+    handlePageChange(event) {
+        this.app.state.currentPage = event.target.value;
+        this.app.getData();
+    }
+
+    setListener() {
+        document
+            .getElementById('activePageSelect')
+            .addEventListener('change', (event) => this.handlePageChange(event));
     }
 
     getOptions() {

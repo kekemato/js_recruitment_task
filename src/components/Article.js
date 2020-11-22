@@ -1,5 +1,5 @@
 export default class Article {
-    constructor(header, sectionName, publicationDate, url, id, application) {
+    constructor(header, sectionName, publicationDate, url, id, app) {
         this.state = {
             header,
             sectionName,
@@ -7,7 +7,7 @@ export default class Article {
             url,
             id,
         };
-        this.application = application;
+        this.app = app;
         this.htmlElement = this.render();
     }
 
@@ -18,7 +18,7 @@ export default class Article {
                 'savedArticles',
                 JSON.stringify(savedArticles ? [...savedArticles, article] : [article])
             );
-        this.application.getReadlaterArticlesList();
+        this.app.getReadlaterArticlesList();
     }
 
     render() {

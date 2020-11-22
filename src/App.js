@@ -1,6 +1,8 @@
 import Article from './components/Article';
 import Pagination from './components/Pagination';
 import ReadLaterArticle from './components/ReadLaterArticle';
+import TextSearch from './components/TextSearch';
+import SectionSelect from './components/SectionSelect';
 
 export default class App {
     constructor(apiKey) {
@@ -14,38 +16,6 @@ export default class App {
         };
 
         this.getData();
-        this.setListeners();
-    }
-
-    handlePageChange(event) {
-        this.state.currentPage = event.target.value;
-        this.getData();
-    }
-
-    handleSectionChange(event) {
-        this.state.section = event.target.value;
-        this.state.currentPage = 1;
-        this.getData();
-    }
-
-    handleSearchChange(event) {
-        this.state.searchText = event.target.value;
-        this.state.currentPage = 1;
-        this.getData();
-    }
-
-    setListeners() {
-        document
-            .getElementById('activePageSelect')
-            .addEventListener('change', (event) => this.handlePageChange(event));
-
-        document
-            .getElementById('sectionSelect')
-            .addEventListener('change', (event) => this.handleSectionChange(event));
-
-        document
-            .getElementById('newsContentSearch')
-            .addEventListener('change', (event) => this.handleSearchChange(event));
     }
 
     getReadlaterArticlesList() {
@@ -83,12 +53,22 @@ export default class App {
 
     getPagination() {
         const { currentPage, pages } = this.state;
-        new Pagination(currentPage, pages, this.handlePageChange);
+        new Pagination(currentPage, pages, this);
+    }
+
+    getTextSearch() {
+        new TextSearch(this);
+    }
+
+    getSectionSelect() {
+        new SectionSelect(this);
     }
 
     render() {
         this.getArticlesList();
         this.getPagination();
+        this.getTextSearch();
+        this.getSectionSelect();
         this.getReadlaterArticlesList();
     }
 

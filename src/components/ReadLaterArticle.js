@@ -1,11 +1,11 @@
 export default class ReadLaterArticle {
-    constructor(header, url, id, application) {
+    constructor(header, url, id, app) {
         this.state = {
             header,
             url,
             id,
         };
-        this.application = application;
+        this.app = app;
         this.htmlElement = this.render();
     }
 
@@ -15,7 +15,7 @@ export default class ReadLaterArticle {
             'savedArticles',
             JSON.stringify(savedArticles.filter((item) => item.id !== article.id))
         );
-        this.application.getReadlaterArticlesList();
+        this.app.getReadlaterArticlesList();
     }
 
     render() {
