@@ -21,7 +21,15 @@ export default class App {
     getReadlaterArticlesList() {
         const readLaterList = document.getElementById('readLaterList');
         readLaterList.innerHTML = '';
+
         const savedArticles = JSON.parse(localStorage.getItem('savedArticles'));
+
+        if (savedArticles.length === 0 || !savedArticles) {
+            const noMatchText = document.createElement('p');
+            noMatchText.innerHTML = 'There is nothing here, yet.';
+            readLaterList.appendChild(noMatchText);
+        }
+
         savedArticles.map(({ header, url, id }) => {
             const newArticle = new ReadLaterArticle(header, url, id, this);
             readLaterList.appendChild(newArticle.htmlElement);
@@ -31,6 +39,11 @@ export default class App {
     getArticlesList() {
         const newsList = document.getElementById('newsList');
         newsList.innerHTML = '';
+        if (this.state.articles.length === 0) {
+            const noMatchText = document.createElement('p');
+            noMatchText.innerHTML = 'No records found matching the search criteria.';
+            newsList.appendChild(noMatchText);
+        }
         this.state.articles.map(
             ({ webUrl, webTitle, webPublicationDate, sectionName, id }) => {
                 const publicationDate = webPublicationDate
@@ -64,6 +77,28 @@ export default class App {
         new SectionSelect(this);
     }
 
+    getLoader() {
+        const loader = document.createElement('div');
+        loader.classList.add('loader');
+        loader.id = 'loader';
+        const newsList = document.getElementById('newsList');
+        newsList.appendChild(loader);
+    }
+
+    removeLoader() {
+        const newsList = document.getElementById('newsList');
+        newsList.innerHTML = '';
+    }
+
+    showSnackbar() {
+        const snackbar = document.getElementById('snackbar');
+        snackbar.className = 'visible';
+        setTimeout(
+            () => (snackbar.className = snackbar.className.replace('visible', '')),
+            3000
+        );
+    }
+
     render() {
         this.getArticlesList();
         this.getPagination();
@@ -72,7 +107,7 @@ export default class App {
         this.getReadlaterArticlesList();
     }
 
-    getDates() {
+    getFromDate() {
         const dateFrom = new Date(new Date().setDate(new Date().getDate() - 30));
         const timezoneOffset = dateFrom.getTimezoneOffset();
         const correctDate = new Date(
@@ -85,8 +120,9 @@ export default class App {
     }
 
     getData() {
-        const { fromDate } = this.getDates();
+        const { fromDate } = this.getFromDate();
         const { currentPage, section, searchText } = this.state;
+        this.getLoader();
         const sectionParam =
       section === '' || section === 'all' ? '' : `&section=${section}`;
         const searchTextParam = searchText ? `&q=${searchText}` : '';
@@ -98,6 +134,14 @@ export default class App {
                 this.state.pages = pages;
                 this.state.articles = results;
             })
-            .then(() => this.render());
+            .then(() => {
+                this.removeLoader();
+                this.render();
+            })
+            .catch(() => {
+                this.showSnackbar();
+                this.removeLoader();
+                this.render();
+            });
     }
 }

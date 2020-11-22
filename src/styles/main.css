@@ -3,6 +3,7 @@
   background-color: #f4f5f6;
   padding: 20px;
   box-shadow: 3px 0 6px 0 #c9ced5;
+  margin-bottom: 20px;
 }
 
 .appHeader-inner {
@@ -38,6 +39,8 @@
 .newsList {
   list-style: none;
   margin-top: 40px;
+  position: relative;
+  margin-bottom: 140px;
 }
 
 .news {
@@ -58,6 +61,105 @@
 .readLaterItem-title {
   display: inline;
   margin-bottom: 5px;
+}
+
+@-webkit-keyframes spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.loader {
+  position: absolute;
+  left: 95px;
+  top: 50%;
+  border: 6px solid #f3f3f3;
+  border-top: 6px solid #9b4dca;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  -webkit-animation: spin 2s linear infinite;
+  animation: spin 2s linear infinite;
+}
+
+/* The snackbar - position it at the bottom and in the middle of the screen */
+#snackbar {
+  visibility: hidden;
+  min-width: 250px;
+  background-color: #fff;
+  border: 1px solid #9b4dca;
+  color: #9b4dca;
+  font-weight: 600;
+  text-align: center;
+  border-radius: 6px;
+  padding: 16px;
+  position: fixed;
+  z-index: 1;
+  left: 50%;
+  bottom: 30px;
+  transform: translate(-50%, 0);
+}
+
+#snackbar.visible {
+  visibility: visible;
+  -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+  animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+
+@-webkit-keyframes fadein {
+  from {
+    bottom: 0;
+    opacity: 0;
+  }
+  to {
+    bottom: 30px;
+    opacity: 1;
+  }
+}
+
+@keyframes fadein {
+  from {
+    bottom: 0;
+    opacity: 0;
+  }
+  to {
+    bottom: 30px;
+    opacity: 1;
+  }
+}
+
+@-webkit-keyframes fadeout {
+  from {
+    bottom: 30px;
+    opacity: 1;
+  }
+  to {
+    bottom: 0;
+    opacity: 0;
+  }
+}
+
+@keyframes fadeout {
+  from {
+    bottom: 30px;
+    opacity: 1;
+  }
+  to {
+    bottom: 0;
+    opacity: 0;
+  }
 }
 
 /* Larger than mobile screen */
