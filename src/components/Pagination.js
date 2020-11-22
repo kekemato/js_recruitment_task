@@ -5,13 +5,15 @@ export default class Pagination {
             pages,
         };
         this.app = app;
-        this.getOptions();
+        this.render();
         this.setListener();
     }
 
     handlePageChange(event) {
-        this.app.state.currentPage = event.target.value;
-        this.app.getData();
+        if (this.app.state.currentPage !== event.target.value) {
+            this.app.state.currentPage = event.target.value;
+            this.app.getData();
+        }
     }
 
     setListener() {
@@ -20,7 +22,7 @@ export default class Pagination {
             .addEventListener('change', (event) => this.handlePageChange(event));
     }
 
-    getOptions() {
+    render() {
         const { pages, currentPage } = this.state;
         const select = document.getElementById('activePageSelect');
         select.innerHTML = '';

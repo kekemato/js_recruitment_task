@@ -18,7 +18,7 @@ export default class Article {
                 'savedArticles',
                 JSON.stringify(savedArticles ? [...savedArticles, article] : [article])
             );
-        this.app.getReadlaterArticlesList();
+        this.app.getReadLaterArticlesList();
     }
 
     render() {

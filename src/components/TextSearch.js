@@ -5,9 +5,11 @@ export default class TextSearch {
     }
 
     handleSearchChange(event) {
-        this.app.state.searchText = event.target.value;
-        this.app.state.currentPage = 1;
-        this.app.getData();
+        if (this.app.state.searchText !== event.target.value) {
+            this.app.state.searchText = event.target.value;
+            this.app.state.currentPage = 1;
+            this.app.getData();
+        }
     }
 
     setListener() {

@@ -5,9 +5,11 @@ export default class SectionSelect {
     }
 
     handleSectionChange(event) {
-        this.app.state.section = event.target.value;
-        this.app.state.currentPage = 1;
-        this.app.getData();
+        if (this.app.state.section !== event.target.value) {
+            this.app.state.section = event.target.value;
+            this.app.state.currentPage = 1;
+            this.app.getData();
+        }
     }
 
     setListener() {

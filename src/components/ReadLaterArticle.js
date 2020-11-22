@@ -15,7 +15,7 @@ export default class ReadLaterArticle {
             'savedArticles',
             JSON.stringify(savedArticles.filter((item) => item.id !== article.id))
         );
-        this.app.getReadlaterArticlesList();
+        this.app.getReadLaterArticlesList();
     }
 
     render() {
