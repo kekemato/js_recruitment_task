@@ -18,7 +18,7 @@ export default class App {
         this.getData();
     }
 
-    getReadlaterArticlesList() {
+    getReadLaterArticlesList() {
         const readLaterList = document.getElementById('readLaterList');
         readLaterList.innerHTML = '';
 
@@ -104,7 +104,7 @@ export default class App {
         this.getPagination();
         this.getTextSearch();
         this.getSectionSelect();
-        this.getReadlaterArticlesList();
+        this.getReadLaterArticlesList();
     }
 
     getFromDate() {
