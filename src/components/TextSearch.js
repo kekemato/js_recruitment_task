@@ -1,7 +1,10 @@
+const newsContentSearch = document.getElementById('newsContentSearch');
+
 export default class TextSearch {
     constructor(app) {
         this.app = app;
-        this.setListener();
+        this.boundSearchHandler = this.handleSearchChange.bind(this);
+        newsContentSearch.addEventListener('change', this.boundSearchHandler);
     }
 
     handleSearchChange(event) {
@@ -10,11 +13,6 @@ export default class TextSearch {
             this.app.state.currentPage = 1;
             this.app.getData();
         }
-    }
-
-    setListener() {
-        document
-            .getElementById('newsContentSearch')
-            .addEventListener('change', (event) => this.handleSearchChange(event));
+        newsContentSearch.removeEventListener('change', this.boundSearchHandler);
     }
 }

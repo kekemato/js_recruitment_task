@@ -1,7 +1,9 @@
+const sectionSelect = document.getElementById('sectionSelect');
 export default class SectionSelect {
     constructor(app) {
         this.app = app;
-        this.setListener();
+        this.boundSectionChangeHandler = this.handleSectionChange.bind(this);
+        sectionSelect.addEventListener('change', this.boundSectionChangeHandler);
     }
 
     handleSectionChange(event) {
@@ -10,11 +12,6 @@ export default class SectionSelect {
             this.app.state.currentPage = 1;
             this.app.getData();
         }
-    }
-
-    setListener() {
-        document
-            .getElementById('sectionSelect')
-            .addEventListener('change', (event) => this.handleSectionChange(event));
+        sectionSelect.removeEventListener('change', this.boundSectionChangeHandler);
     }
 }
