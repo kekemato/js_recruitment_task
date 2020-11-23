@@ -1,5 +1,3 @@
-const activePageSelect = document.getElementById('activePageSelect');
-
 export default class Pagination {
     constructor(currentPage, pages, app) {
         this.state = {
@@ -7,17 +5,26 @@ export default class Pagination {
             pages,
         };
         this.app = app;
-        this.render();
+        this.activePageSelect = document.getElementById('activePageSelect');
         this.boundPageChangeHandler = this.handlePageChange.bind(this);
-        activePageSelect.addEventListener('change', this.boundPageChangeHandler);
+        this.activePageSelect.addEventListener(
+            'change',
+            this.boundPageChangeHandler
+        );
+
+        this.render();
     }
 
     handlePageChange(event) {
+        console.log('dfg');
         if (this.app.state.currentPage !== event.target.value) {
             this.app.state.currentPage = event.target.value;
             this.app.getData();
         }
-        activePageSelect.removeEventListener('change', this.boundPageChangeHandler);
+        this.activePageSelect.removeEventListener(
+            'change',
+            this.boundPageChangeHandler
+        );
     }
 
     render() {
