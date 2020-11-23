@@ -6,6 +6,9 @@ export default class ReadLaterArticle {
             id,
         };
         this.app = app;
+        this.boundDeleteArticleToReadLater = this.deleteArticleToReadLater.bind(
+            this
+        );
         this.htmlElement = this.render();
     }
 
@@ -16,22 +19,26 @@ export default class ReadLaterArticle {
             JSON.stringify(savedArticles.filter((item) => item.id !== article.id))
         );
         this.app.getReadLaterArticlesList();
+        const newArticle = document.getElementById(article.id);
+        newArticle.removeEventListener('click', () => {
+            this.boundDeleteArticleToReadLater(this.state);
+        });
     }
 
     render() {
-        const { header, url } = this.state;
+        const { header, url, id } = this.state;
         const template = `
       <h4 class="readLaterItem-title">${header}</h4>
       <section>
         <a href=${url} class="button button-clear">Read</a>
-        <button class="button button-clear">Remove</button>
+        <button class="button button-clear" id=${id}>Remove</button>
       </section>
       `;
 
         const newArticle = document.createElement('li');
         newArticle.innerHTML = template;
         newArticle.querySelector('button').addEventListener('click', () => {
-            this.deleteArticleToReadLater(this.state);
+            this.boundDeleteArticleToReadLater(this.state);
         });
         return newArticle;
     }

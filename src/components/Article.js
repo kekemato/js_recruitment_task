@@ -8,21 +8,27 @@ export default class Article {
             id,
         };
         this.app = app;
+        this.boundSaveArticleToReadLater = this.saveArticleToReadLater.bind(this);
         this.htmlElement = this.render();
     }
 
     saveArticleToReadLater(article) {
         const savedArticles = JSON.parse(localStorage.getItem('savedArticles'));
-        if (!savedArticles.find((item) => item.id === article.id))
+        if (!savedArticles?.find((item) => item.id === article.id))
             localStorage.setItem(
                 'savedArticles',
                 JSON.stringify(savedArticles ? [...savedArticles, article] : [article])
             );
         this.app.getReadLaterArticlesList();
+
+        const newArticle = document.getElementById(article.id);
+        newArticle.removeEventListener('click', () => {
+            this.boundSaveArticleToReadLater(this.state);
+        });
     }
 
     render() {
-        const { header, sectionName, publicationDate, url } = this.state;
+        const { header, sectionName, publicationDate, url, id } = this.state;
         const template = `
         <article class="news">
         <header>
@@ -36,15 +42,16 @@ export default class Article {
         </section>
         <section class="newsActions">
             <a href="${url}" class="button">Full article</a>
-            <button class="button button-outline">Read Later</button>
+            <button class="button button-outline" id=${id}>Read Later</button>
         </section>
         </article>
     `;
 
         const newArticle = document.createElement('li');
         newArticle.innerHTML = template;
+
         newArticle.querySelector('button').addEventListener('click', () => {
-            this.saveArticleToReadLater(this.state);
+            this.boundSaveArticleToReadLater(this.state);
         });
         return newArticle;
     }

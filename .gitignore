@@ -90,4 +90,7 @@ typings/
 # Build
 dist
 
+#config file with api key
+config.js
+
 # End of https://www.gitignore.io/api/node

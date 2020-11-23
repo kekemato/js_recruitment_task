@@ -1,6 +1,7 @@
 import './styles/main.css';
 import App from './App';
 
-const apiKey = '5f86ed8a-c33a-4bdf-abe8-25e66c428779';
+// Please add config.js file with api key in order to run application correctly
+import { apiKey } from './config';
 
 new App(apiKey);

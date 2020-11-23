@@ -24,13 +24,13 @@ export default class App {
 
         const savedArticles = JSON.parse(localStorage.getItem('savedArticles'));
 
-        if (savedArticles.length === 0 || !savedArticles) {
+        if (savedArticles?.length === 0 || !savedArticles) {
             const noMatchText = document.createElement('p');
             noMatchText.innerHTML = 'There is nothing here, yet.';
             readLaterList.appendChild(noMatchText);
         }
 
-        savedArticles.map(({ header, url, id }) => {
+        savedArticles?.map(({ header, url, id }) => {
             const newArticle = new ReadLaterArticle(header, url, id, this);
             readLaterList.appendChild(newArticle.htmlElement);
         });
@@ -92,11 +92,8 @@ export default class App {
 
     showSnackbar() {
         const snackbar = document.getElementById('snackbar');
-        snackbar.className = 'visible';
-        setTimeout(
-            () => (snackbar.className = snackbar.className.replace('visible', '')),
-            3000
-        );
+        snackbar.classList.add('visible');
+        setTimeout(() => snackbar.classList.remove('visible'), 3000);
     }
 
     render() {

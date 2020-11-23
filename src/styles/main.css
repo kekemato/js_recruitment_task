@@ -56,6 +56,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-direction: column;
 }
 
 .readLaterItem-title {
@@ -95,7 +96,7 @@
 }
 
 /* The snackbar - position it at the bottom and in the middle of the screen */
-#snackbar {
+.snackbar {
   visibility: hidden;
   min-width: 250px;
   background-color: #fff;
@@ -112,7 +113,7 @@
   transform: translate(-50%, 0);
 }
 
-#snackbar.visible {
+.snackbar.visible {
   visibility: visible;
   -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
   animation: fadein 0.5s, fadeout 0.5s 2.5s;
@@ -166,5 +167,8 @@
 @media (min-width: 40rem) {
   .appTitle {
     font-size: 2.4rem;
+  }
+  .newsActions {
+    flex-direction: row;
   }
 }

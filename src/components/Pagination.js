@@ -16,7 +16,6 @@ export default class Pagination {
     }
 
     handlePageChange(event) {
-        console.log('dfg');
         if (this.app.state.currentPage !== event.target.value) {
             this.app.state.currentPage = event.target.value;
             this.app.getData();
